@@ -1,0 +1,12 @@
+def get_objects():
+    import math
+    def func():
+        return
+    def gen():
+        yield 1
+    
+    generator = gen()
+
+    types_list = [Exception(), None, ValueError(), True, __build_class__, bytearray(5), b"Hello Python", complex(1, 2), {}, {}.__iter__(), 1.0,
+    frozenset(), func, generator, 1, [], [].__iter__(), memoryview(bytes(5)), int.__format__, math, object(), range(5), set(), 'Hello Python', (), type]
+    return types_list
