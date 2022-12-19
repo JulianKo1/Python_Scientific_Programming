@@ -1,0 +1,10 @@
+class list_divider(list):
+
+    def __init__(self, lst):
+        self.lst = lst
+    def __truediv__(self, number):
+        if number <= 0:
+            raise ValueError
+        whole, rem = divmod(len(self.lst), number) # k m
+        return list((self.lst[x * whole + min(x, rem) : (x + 1)
+        * whole + min(x + 1, rem)] for x in range(number)))
