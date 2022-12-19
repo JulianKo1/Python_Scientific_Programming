@@ -1,0 +1,28 @@
+def parse_gene_paths(table_text):
+    table_of_elements = []
+    dict_result = {}
+
+    table_of_lines = table_text.split('\n')
+
+    for line in table_of_lines:
+        line = line[:-1]
+        columns = line.split('\t')
+        table_of_elements.append(columns)
+
+    for line in table_of_elements:
+        dict_result[line[0]] = set()
+        for element in range(2, len(line)):
+            if line[element] == '':
+                break
+            dict_result[line[0]].add(line[element])
+
+    return dict_result
+
+def count_paths_for_gene(gene_in_path, gene, path_part):
+    count = 0
+
+    for path in gene_in_path:
+        if path_part in path.split('_') and gene in gene_in_path[path]:
+                count += 1
+    
+    return count
