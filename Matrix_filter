@@ -1,0 +1,26 @@
+class score_filter:
+
+    def __init__(self, min_score, max_score):
+        self.min_score = min_score
+        self.max_score = max_score
+        self.pairs_list = []
+
+    def __iter__(self):
+        for i in self.pairs_list:
+            yield i
+
+    def fit(self, x, y, pair_iter_list):
+        def pre_fit(lst):
+            for i in range(1, len(lst)):
+                lst[i] += lst[i - 1]
+            return lst
+        
+        x_prefitted = pre_fit(x)
+        y_prefitted = pre_fit(y)
+
+        for i, j in pair_iter_list:
+            if self.min_score < ((x_prefitted[i] * y_prefitted[j]) / (x_prefitted[len(x_prefitted) - 1]
+            * y_prefitted[len(y_prefitted) - 1])) < self.max_score:
+                self.pairs_list.append((i, j))
+            else:
+                continue
