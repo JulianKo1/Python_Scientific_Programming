@@ -1,0 +1,49 @@
+def common_tc_dates(cyclone_dates_1, cyclone_dates_2):
+
+    dict_result = {}
+
+    def fit_data(dates_list):
+
+        data_preparation = []
+        result = set()
+        
+        for date in dates_list:
+            data_preparation.append(date.replace(' ', ''))
+
+        split_date = []
+        for str in data_preparation:
+            split_date.append(str.split('/'))
+
+        for x in split_date:
+            if len(x) != 3 or len(x[0]) < 1 or len(x[0]) > 2 or len(x[0]) < 1 or len(x[1]) > 2 or len(x[2]) != 4:
+                continue
+
+            if x[0].isdigit():
+                if x[1].isdigit():
+                    if (((int(x[1]) in {1, 3, 5, 7, 8, 10, 12}) and int(x[0]) > 0 and int(x[0]) <= 31)
+                        or ((int(x[1]) in {4, 6, 9, 11}) and int(x[0]) > 0 and int(x[0]) <= 30)
+                        or (int(x[1]) == 2 and int(x[0]) > 0 and int(x[0]) <= 28)):
+                            if x[2].isdigit():
+                                if int(x[2]) >= 1982 and int(x[2]) <= 2022:
+                                    if len(x[0]) == 1:
+                                        x[0] = '0' + x[0]
+                                    if len(x[1]) == 1:
+                                        x[1] = '0' + x[1]
+                                    result.add(x[0] + x[1])
+                                    continue
+            continue
+        
+        return result
+    
+    first_date_month= fit_data(cyclone_dates_1)
+    second_date_month = fit_data(cyclone_dates_2)
+
+    dict_result['any_year'] = len(first_date_month.union(second_date_month))
+    dict_result['both_years'] = len(first_date_month.intersection(second_date_month))
+    dict_result['only_one_year'] = 0
+    dict_result['only_first_year'] = len(first_date_month - second_date_month)
+    dict_result['only_second_year'] = len(second_date_month - first_date_month)
+    dict_result['only_one_year'] = dict_result['only_first_year'] + dict_result['only_second_year']
+    dict_result['none_of_years'] = 365 - dict_result['any_year']
+
+    return dict_result
